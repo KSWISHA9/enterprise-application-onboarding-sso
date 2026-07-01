@@ -1,3 +1,14 @@
+## Enterprise Application Packages
+
+- [Repository Home](../../README.md)
+- [Grafana SAML Onboarding](../Grafana/README.md)
+- [ServiceNow SAML Onboarding](../ServiceNow/README.md)
+- [Salesforce SAML Onboarding](../Salesforce/README.md)
+- [GitHub Enterprise Onboarding](../GitHub-Enterprise/README.md)
+- [Custom OIDC Application](../Custom-OIDC-App/README.md)
+- [SCIM Provisioning](../SCIM-Provisioning/README.md)
+
+---
 # APP-1002 — WordPress OIDC Onboarding
 
 ## Overview
@@ -260,3 +271,4 @@ The completed implementation provides a repeatable onboarding process that can b
 - Integrate Conditional Access policies
 - Automate application onboarding using Microsoft Graph
 - Expand monitoring using Microsoft Entra Sign-in Logs and Microsoft Sentinel
+
