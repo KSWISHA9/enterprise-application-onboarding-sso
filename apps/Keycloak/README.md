@@ -167,7 +167,7 @@ http://<keycloak-host>/realms/<realm>/broker/<idp-alias>/endpoint
 
 Shows the Keycloak 26.6.4 admin console after deployment via Docker.
 
-![Keycloak Admin Console](../../screenshots/01-keycloak-admin-console_png.png)
+![Keycloak Admin Console](../../screenshots/01-keycloak-admin-console.png.png)
 
 ---
 
@@ -175,7 +175,7 @@ Shows the Keycloak 26.6.4 admin console after deployment via Docker.
 
 Shows the omniverse realm created in Keycloak where the Microsoft Entra Identity Provider was configured.
 
-![Realm Created](../../screenshots/02-keycloak-realm-created_png.png)
+![Realm Created](../../screenshots/02-keycloak-realm-created.png.png)
 
 ---
 
@@ -183,7 +183,7 @@ Shows the omniverse realm created in Keycloak where the Microsoft Entra Identity
 
 Shows the initial SAML client created in Keycloak during the first configuration attempt using the direct SP client pattern.
 
-![Client Created](../../screenshots/03-keycloak-client-created_png.png)
+![Client Created](../../screenshots/03-keycloak-client-created.png.png)
 
 ---
 
@@ -191,7 +191,7 @@ Shows the initial SAML client created in Keycloak during the first configuration
 
 Shows the SAML client settings including Client ID, protocol, and access configuration.
 
-![Client Settings](../../screenshots/04-keycloak-client-saml-settings_png.png)
+![Client Settings](../../screenshots/04-keycloak-client-saml-settings.png.png)
 
 ---
 
@@ -199,7 +199,7 @@ Shows the SAML client settings including Client ID, protocol, and access configu
 
 Shows the OmniVerse Keycloak Enterprise Application created in Microsoft Entra ID for SAML federation, including the App Gallery selection using the non-gallery application option.
 
-![Entra Enterprise App](../../screenshots/05-keycloak-entra-enterprise-application_png.png)
+![Entra Enterprise App](../../screenshots/05-keycloak-entra-enterprise-application.png.png)
 
 ---
 
@@ -207,7 +207,7 @@ Shows the OmniVerse Keycloak Enterprise Application created in Microsoft Entra I
 
 Shows the initial SAML configuration state before Entity ID and Reply URL were configured in Microsoft Entra ID.
 
-![Blank SAML Config](../../screenshots/06-keycloak-saml-configuration-blank_png.png)
+![Blank SAML Config](../../screenshots/06-keycloak-saml-configuration-blank.png.png)
 
 ---
 
@@ -215,7 +215,7 @@ Shows the initial SAML configuration state before Entity ID and Reply URL were c
 
 Shows the completed Basic SAML Configuration in Microsoft Entra ID with the Keycloak broker endpoint as the Reply URL.
 
-![Basic SAML Config](../../screenshots/07-keycloak-basic-saml-configuration_png.png)
+![Basic SAML Config](../../screenshots/07-keycloak-basic-saml-configuration.png.png)
 
 ---
 
@@ -223,7 +223,7 @@ Shows the completed Basic SAML Configuration in Microsoft Entra ID with the Keyc
 
 Shows the Microsoft Entra SAML signing certificate used to validate assertions sent to Keycloak.
 
-![SAML Certificate](../../screenshots/09-keycloak-saml-certificate_png.png)
+![SAML Certificate](../../screenshots/09-keycloak-saml-certificate.png.png)
 
 ---
 
@@ -231,7 +231,7 @@ Shows the Microsoft Entra SAML signing certificate used to validate assertions s
 
 Shows the Keycloak client configuration with the Entra App Federation Metadata URL imported for automatic IdP configuration.
 
-![Metadata Import](../../screenshots/09-keycloak-metadata-import_png.png)
+![Metadata Import](../../screenshots/09-keycloak-metadata-import.png.png)
 
 ---
 
@@ -239,7 +239,7 @@ Shows the Keycloak client configuration with the Entra App Federation Metadata U
 
 Shows the Keycloak realm SAML metadata descriptor confirming the SSO endpoints and signing certificate.
 
-![Keycloak IdP Metadata](../../screenshots/10-keycloak-idp-metadata_png.png)
+![Keycloak IdP Metadata](../../screenshots/10-keycloak-idp-metadata.png.png)
 
 ---
 
@@ -247,7 +247,7 @@ Shows the Keycloak realm SAML metadata descriptor confirming the SSO endpoints a
 
 Shows the final Keycloak client SAML configuration with the Entra metadata URL imported and signature settings confirmed.
 
-![Final SAML Config](../../screenshots/10-keycloak-final-saml-configuration_png.png)
+![Final SAML Config](../../screenshots/10-keycloak-final-saml-configuration.png.png)
 
 ---
 
@@ -255,7 +255,7 @@ Shows the final Keycloak client SAML configuration with the Entra metadata URL i
 
 Shows the Keycloak first broker login prompt where the user completes their profile after the initial SAML authentication from Microsoft Entra ID.
 
-![First Broker Login](../../screenshots/09-Keycloak-First-Broker-Login_png.png)
+![First Broker Login](../../screenshots/09-Keycloak-First-Broker-Login.png.png)
 
 ---
 
@@ -263,7 +263,7 @@ Shows the Keycloak first broker login prompt where the user completes their prof
 
 Shows the profile update confirmation after the first broker login flow completed successfully.
 
-![Account Update](../../screenshots/10-Keycloak-Account-Information-Update_png.png)
+![Account Update](../../screenshots/10-Keycloak-Account-Information-Update.png.png)
 
 ---
 
@@ -271,7 +271,7 @@ Shows the profile update confirmation after the first broker login flow complete
 
 Shows the Keycloak account console Linked Accounts page confirming Microsoft Entra ID is linked as the federated login provider for this user.
 
-![Linked Provider](../../screenshots/11-Keycloak-Linked-Identity-Provider_png.png)
+![Linked Provider](../../screenshots/11-Keycloak-Linked-Identity-Provider.png.png)
 
 ---
 
@@ -356,3 +356,4 @@ JIT provisioning through the first broker login flow is the standard Keycloak pa
 - Deploy Keycloak behind HTTPS with a real domain
 - Integrate downstream OIDC applications through Keycloak
 - Connect to IAM-004 Conditional Access and Zero Trust
+
