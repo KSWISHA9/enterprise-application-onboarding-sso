@@ -1,8 +1,8 @@
-# APP-1003 — ServiceNow SAML Onboarding
+# APP-1007 — SCIM Provisioning Onboarding
 
 ## Overview
 
-This application onboarding package documents the planned integration of ServiceNow with Microsoft Entra ID using SAML 2.0.
+This application onboarding package documents the planned integration of Generic SCIM Application with Microsoft Entra ID using SCIM.
 
 ## Business Request
 
@@ -12,8 +12,8 @@ The application owner requested centralized identity integration through Microso
 
 | Area | Configuration |
 |---|---|
-| Application | ServiceNow |
-| Protocol | SAML 2.0 |
+| Application | Generic SCIM Application |
+| Protocol | SCIM |
 | Identity Provider | Microsoft Entra ID |
 | Provisioning | To be documented |
 | Access Model | Group-based access planned |
@@ -36,4 +36,4 @@ Screenshots will be added as the onboarding package is implemented.
 
 ## Engineering Takeaways
 
-This package will document the full enterprise application onboarding workflow for ServiceNow.
+This package will document the full enterprise application onboarding workflow for Generic SCIM Application.

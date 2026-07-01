@@ -1,22 +1,39 @@
-﻿# Salesforce Application Onboarding
+# APP-1004 — Salesforce SAML Onboarding
+
+## Overview
+
+This application onboarding package documents the planned integration of Salesforce with Microsoft Entra ID using SAML 2.0.
 
 ## Business Request
 
-## Authentication Protocol
+The application owner requested centralized identity integration through Microsoft Entra ID to improve authentication security, reduce local credential management, and support standardized access control.
 
-## Provisioning Method
+## Implementation Summary
 
-## Groups / RBAC
+| Area | Configuration |
+|---|---|
+| Application | Salesforce |
+| Protocol | SAML 2.0 |
+| Identity Provider | Microsoft Entra ID |
+| Provisioning | To be documented |
+| Access Model | Group-based access planned |
+| Status | Planned |
 
-## Claims / Attributes
+## Planned Configuration Areas
 
-## Configuration Steps
-
-## Validation
-
-## Troubleshooting
-
-## Operational Handoff
+- Application intake
+- Protocol selection
+- Microsoft Entra ID configuration
+- Claims or attribute mapping
+- User and group assignment
+- Validation and sign-in testing
+- Troubleshooting
+- Operational handoff
 
 ## Screenshots
 
+Screenshots will be added as the onboarding package is implemented.
+
+## Engineering Takeaways
+
+This package will document the full enterprise application onboarding workflow for Salesforce.

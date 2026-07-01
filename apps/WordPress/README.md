@@ -6,18 +6,18 @@ This application onboarding package documents the integration of WordPress with 
 
 ---
 
-# Business Request
+## Business Request
 
-The Digital Services team requested Single Sign-On (SSO) for the internal WordPress platform to improve security, reduce password management overhead, and provide a centralized authentication experience using Microsoft Entra ID.
+The Digital Services team requested Single Sign-On for the internal WordPress platform to improve security, reduce password management overhead, and provide a centralized authentication experience using Microsoft Entra ID.
 
 The implementation also serves as a reference onboarding package for future OpenID Connect integrations across the organization.
 
 ---
 
-# Business Requirements
+## Business Requirements
 
 - Integrate WordPress with Microsoft Entra ID
-- Authenticate users using OpenID Connect (OIDC)
+- Authenticate users using OpenID Connect
 - Eliminate local credential management
 - Centralize identity management
 - Validate secure token-based authentication
@@ -26,12 +26,12 @@ The implementation also serves as a reference onboarding package for future Open
 
 ---
 
-# Implementation Summary
+## Implementation Summary
 
 | Area | Configuration |
-|------|---------------|
+|---|---|
 | Application | WordPress |
-| Protocol | OpenID Connect (OIDC) |
+| Protocol | OpenID Connect |
 | Identity Provider | Microsoft Entra ID |
 | Service Provider | WordPress |
 | Authentication | OAuth 2.0 / OIDC |
@@ -42,7 +42,7 @@ The implementation also serves as a reference onboarding package for future Open
 
 ---
 
-# Configuration Highlights
+## Configuration Highlights
 
 The implementation included:
 
@@ -58,7 +58,7 @@ The implementation included:
 
 ---
 
-# Validation Results
+## Validation Results
 
 Validation confirmed that:
 
@@ -71,113 +71,129 @@ Validation confirmed that:
 
 ---
 
-# Troubleshooting
+## Troubleshooting
 
-## Issue 1 — HTTP Callback URL
+### Issue 1 — HTTP Callback URL
 
-### Problem
+#### Problem
 
 During the initial OpenID Connect configuration, the miniOrange plugin automatically generated the Callback URL using HTTP.
 
-```
+```text
 http://omniverse-identity.local
 ```
 
 Microsoft Entra ID requires secure HTTPS redirect URIs for enterprise web applications.
 
-### Root Cause
+#### Root Cause
 
-Although LocalWP had SSL enabled, the WordPress Address (URL) and Site Address (URL) were still configured to use HTTP. The plugin generated its callback URL from the site's configured URL.
+Although LocalWP had SSL enabled, the WordPress Address URL and Site Address URL were still configured to use HTTP. The plugin generated its callback URL from the site's configured URL.
 
-### Resolution
+#### Resolution
 
 - Verified LocalWP SSL certificate was trusted.
-- Updated the WordPress Address (URL) to HTTPS.
-- Updated the Site Address (URL) to HTTPS.
+- Updated the WordPress Address URL to HTTPS.
+- Updated the Site Address URL to HTTPS.
 - Reloaded the WordPress application.
 - Confirmed the plugin generated an HTTPS callback URL.
 - Updated the Microsoft Entra ID Redirect URI to match.
 
-### Result
+#### Result
 
 Authentication proceeded successfully using a secure HTTPS callback URL.
 
 ---
 
-## Issue 2 — Invalid Client Secret (AADSTS7000215)
+### Issue 2 — Invalid Client Secret
 
-### Problem
+#### Problem
 
-Authentication failed with:
+Authentication failed with the following Microsoft Entra ID error:
 
+```text
 AADSTS7000215 — Invalid client secret provided.
+```
 
-### Root Cause
+#### Root Cause
 
 The Client Secret ID was mistakenly used instead of the Client Secret Value generated within Microsoft Entra ID.
 
-### Resolution
+#### Resolution
 
 - Generated a new Client Secret.
-- Copied the Client Secret Value.
+- Copied the Client Secret Value immediately after creation.
 - Updated the WordPress OAuth configuration.
 - Retested authentication.
 
-### Result
+#### Result
 
 Microsoft Entra ID successfully authenticated the application and issued a valid JWT token.
 
 ---
 
-# Screenshots
+## Screenshots
 
-## 1. LocalWP Site Created
+### 1. LocalWP Site Created
 
 Demonstrates deployment of a local WordPress environment used to simulate an enterprise application before integrating Microsoft Entra ID.
 
+![LocalWP Site Created](../../screenshots/04-localwp-site-created.png)
+
 ---
 
-## 2. WordPress Administrator Dashboard
+### 2. WordPress Administrator Dashboard
 
 Confirms successful installation of WordPress and administrative access prior to implementing Single Sign-On.
 
+![WordPress Dashboard](../../screenshots/05-wordpress-admin-dashboard.png)
+
 ---
 
-## 3. OAuth/OpenID Connect Plugin Search
+### 3. OAuth/OpenID Connect Plugin Search
 
 Shows identification of the miniOrange OAuth/OpenID Connect client plugin used for enterprise authentication.
 
+![Plugin Search](../../screenshots/06-oidc-plugin-search.png)
+
 ---
 
-## 4. miniOrange Plugin Installed
+### 4. miniOrange Plugin Installed
 
 Confirms installation and activation of the OAuth/OpenID Connect client responsible for communication with Microsoft Entra ID.
 
+![Plugin Installed](../../screenshots/07-miniorange-oidc-plugin-installed.png)
+
 ---
 
-## 5. Client Secret Created
+### 5. Client Secret Created
 
 Documents creation of a Microsoft Entra ID Client Secret used by WordPress during OAuth authentication.
 
+![Client Secret](../../screenshots/10-client-secret-created.png)
+
 ---
 
-## 6. Initial OIDC Configuration
+### 6. Initial OIDC Configuration
 
 Shows initial configuration of the OpenID Connect provider including Client ID, Client Secret, Callback URL, Authorization Endpoint, Token Endpoint, and Scopes.
 
+![OIDC Configuration](../../screenshots/11-wordpress-oidc-configuration.png)
+
 ---
 
-## 7. Completed OIDC Configuration
+### 7. Completed OIDC Configuration
 
 Demonstrates successful completion of all required OpenID Connect configuration settings.
 
+![Completed Configuration](../../screenshots/12-wordpress-oidc-configured.png)
+
 ---
 
-## 8. Successful Token Validation
+### 8. Successful Token Validation
 
-Shows Microsoft Entra ID successfully issuing a JWT identity token containing authenticated user claims.
+Shows Microsoft Entra ID successfully issuing a JWT identity token containing authenticated user claims. This confirms the trust relationship between WordPress and Microsoft Entra ID was successfully established.
 
-Verified claims include:
+Verified claims included:
 
 - Preferred Username
 - Object ID
@@ -187,27 +203,35 @@ Verified claims include:
 - Subject Identifier
 - Token Version
 
----
-
-## 9. Attribute Mapping
-
-Illustrates mapping Microsoft Entra ID claims to WordPress username, email address, and display name.
+![Token Validation](../../screenshots/13-successful-oidc-token-validation.png)
 
 ---
 
-## 10. Authentication Troubleshooting
+### 9. Attribute Mapping
 
-Captures the Invalid Client Secret error encountered during implementation and the successful resolution process.
+Illustrates mapping Microsoft Entra ID claims to WordPress username, email address, and display name. Proper claim mapping ensures accurate identity representation following authentication.
 
----
-
-## 11. Successful WordPress Dashboard Login
-
-Confirms successful authentication into WordPress using Microsoft Entra ID through OpenID Connect without local credentials.
+![Attribute Mapping](../../screenshots/14-attribute-mapping.png)
 
 ---
 
-# Engineering Takeaways
+### 10. Authentication Troubleshooting
+
+Captures the Invalid Client Secret error encountered during testing. Troubleshooting authentication failures is a common part of enterprise application onboarding and demonstrates the importance of validating credentials, application registrations, and OAuth configuration.
+
+![Troubleshooting](../../screenshots/15-invalid-client-secret-error.png)
+
+---
+
+### 11. Successful WordPress Dashboard Login
+
+Confirms successful authentication into WordPress using Microsoft Entra ID through OpenID Connect without requiring local WordPress credentials.
+
+![Successful Login](../../screenshots/18-wordpress-dashboard-after-sso.png)
+
+---
+
+## Engineering Takeaways
 
 This onboarding demonstrated the complete lifecycle of integrating an enterprise application with Microsoft Entra ID using OpenID Connect.
 
@@ -223,14 +247,16 @@ Engineering activities included:
 - Single Sign-On Validation
 - Enterprise Documentation
 
+The completed implementation provides a repeatable onboarding process that can be reused for future OpenID Connect integrations across enterprise applications.
+
 ---
 
-# Future Enhancements
+## Future Enhancements
 
-- SCIM Provisioning
-- Group-Based Authorization
-- RBAC
-- Just-In-Time (JIT) Provisioning
-- Conditional Access
-- Microsoft Graph Automation
-- Microsoft Sentinel Monitoring
+- Enable automatic user provisioning using SCIM
+- Implement group-based authorization
+- Configure role-based access control
+- Enable Just-In-Time user provisioning
+- Integrate Conditional Access policies
+- Automate application onboarding using Microsoft Graph
+- Expand monitoring using Microsoft Entra Sign-in Logs and Microsoft Sentinel
