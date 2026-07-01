@@ -1,27 +1,22 @@
-﻿## Enterprise Application Packages
+## Enterprise Application Packages
 
 - [Repository Home](../../README.md)
 - [WordPress OIDC Onboarding](../WordPress/README.md)
-- [ServiceNow SAML Onboarding](../ServiceNow/README.md)
+- [GitHub Enterprise SAML Onboarding](../GitHub-Enterprise/README.md)
 - [Salesforce SAML Onboarding](../Salesforce/README.md)
-- [GitHub Enterprise Onboarding](../GitHub-Enterprise/README.md)
-- [Custom OIDC Application](../Custom-OIDC-App/README.md)
+- [Atlassian Jira SAML Onboarding](../Jira/README.md)
+- [Cisco Duo Identity Integration](../Cisco-Duo/README.md)
+- [Keycloak SAML Federation](../Keycloak/README.md)
 - [SCIM Provisioning](../SCIM-Provisioning/README.md)
 
 ---
-# APP-1001 — OmniVerse Grafana Onboarding
 
-## Overview
 
-This application onboarding package documents the integration of **OmniVerse Grafana** with Microsoft Entra ID using SAML 2.0.
-
-The goal was to centralize authentication, reduce local account dependency, and prepare Grafana for group-based access control using Microsoft Entra security groups.
-
----
+# APP-1001 - Grafana SAML Onboarding
 
 ## Business Request
 
-The Infrastructure Operations team requested SSO for Grafana so users could authenticate with their enterprise identity instead of separate local credentials.
+The Infrastructure Operations team requested Single Sign-On for Grafana to centralize authentication, eliminate local accounts, and prepare the platform for group-based access control.
 
 ---
 
@@ -29,219 +24,118 @@ The Infrastructure Operations team requested SSO for Grafana so users could auth
 
 | Area | Configuration |
 |---|---|
-| Application | OmniVerse Grafana |
+| Application | Grafana |
 | Protocol | SAML 2.0 |
 | Identity Provider | Microsoft Entra ID |
-| Service Provider | Grafana Cloud |
+| Service Provider | Grafana |
+| Authentication Flow | SP-Initiated SAML |
+| Certificate | Microsoft Entra token signing certificate |
 | Provisioning | Manual |
-| Access Model | Group-based RBAC prepared |
-| Status | SAML configured and enabled |
+| Status | Successfully Configured |
 
 ---
 
-## Step 1 — Create Enterprise Application
+## Architecture
 
-A non-gallery Enterprise Application was created in Microsoft Entra ID for OmniVerse Grafana. This establishes the application object that Entra uses to manage SSO, claims, certificates, and access assignment.
-
-![Application Overview](screenshots/01-Application-Overview.png)
-
-**Result**
-
-The Enterprise Application was created and prepared for SAML configuration.
-
----
-
-## Step 2 — Open SAML Configuration
-
-The SAML configuration page was opened before any values were entered. This documents the starting point of the application onboarding process.
-
-![Blank SAML Configuration](screenshots/02-SAML-Configuration-Blank.png)
-
-**Result**
-
-The application was ready for SAML setup.
+```mermaid
+flowchart LR
+    A[User] --> B[Grafana]
+    B --> C[Microsoft Entra ID]
+    C --> D[SAML Assertion]
+    D --> B
+    B --> E[Grafana Dashboard]
+```
 
 ---
 
-## Step 3 — Review Basic SAML Configuration
+## Configuration Steps
 
-The Basic SAML Configuration panel contains the Service Provider values required by Microsoft Entra ID, including the Entity ID and Assertion Consumer Service URL.
-
-![Basic SAML Configuration](screenshots/03-Basic-SAML-Configuration-Blank.png)
-
-**Result**
-
-The required SAML fields were identified before configuration.
-
----
-
-## Step 4 — Review Grafana SAML Settings
-
-Grafana SAML settings were reviewed to identify the Service Provider metadata, ACS URL, and integration requirements.
-
-![Grafana SAML General Settings](screenshots/04-Grafana-General-SAML-Settings.png)
-
-**Result**
-
-Grafana provided the Service Provider values required for Entra configuration.
+1. Created the Grafana Enterprise Application in Microsoft Entra ID.
+2. Selected SAML as the authentication protocol.
+3. Configured Basic SAML settings including Entity ID and Reply URL.
+4. Downloaded the Microsoft Entra SAML signing certificate.
+5. Configured Grafana SAML settings with Entra IdP information.
+6. Reviewed and confirmed default and advanced claims.
+7. Added group claim support for future RBAC.
+8. Validated SAML configuration readiness.
 
 ---
 
-## Step 5 — Review Request Signing
+## Claims and Attribute Mapping
 
-Grafana supports signed SAML requests. Request signing settings were reviewed as part of the trust relationship between Grafana and Microsoft Entra ID.
-
-![Grafana Sign Requests](screenshots/05-Grafana-Sign-Requests.png)
-
-**Result**
-
-Request signing options were reviewed before continuing.
-
----
-
-## Step 6 — Connect Grafana to Identity Provider
-
-Grafana provided the metadata URL and ACS URL needed by Microsoft Entra ID. These values define how Entra identifies Grafana and where SAML responses are sent.
-
-![Grafana Connect Identity Provider](screenshots/06-Grafana-Connect-Identity-Provider.png)
-
-**Result**
-
-The Grafana Service Provider endpoints were captured for Entra configuration.
-
----
-
-## Step 7 — Configure Entra Basic SAML Settings
-
-Microsoft Entra ID was configured with Grafana's Entity ID, Reply URL, and Sign-on URL.
-
-![Entra Basic SAML Configuration](screenshots/07-Entra-Basic-SAML-Configuration.png)
-
-**Result**
-
-The SAML trust was established from Microsoft Entra ID to Grafana.
-
----
-
-## Step 8 — Review Default Attributes and Claims
-
-Default SAML claims were reviewed to confirm what identity attributes Microsoft Entra ID would send to Grafana.
-
-![Default Attributes and Claims](screenshots/08-Default-Attributes-Claims.png)
-
-**Result**
-
-The default claim set was reviewed before adding authorization-related claims.
-
----
-
-## Step 9 — Review Advanced Claims
-
-Advanced claim options were reviewed to determine how Grafana would receive user identity attributes and future authorization data.
-
-![Advanced SAML Claims](screenshots/09-Advanced-SAML-Claims.png)
-
-**Result**
-
-Claim configuration options were validated before adding group claims.
-
----
-
-## Step 10 — Add Group Claim
-
-A group claim was added so Microsoft Entra ID can send group membership inside the SAML assertion. This prepares Grafana for future RBAC mapping.
-
-![Group Claim Added](screenshots/11-Group-Claim-Added.png)
-
-**Result**
-
-Grafana can receive group membership data from Microsoft Entra ID.
-
----
-
-## Step 11 — Review Certificate and Metadata
-
-The SAML certificate and federation metadata were reviewed. Federation metadata allows Grafana to trust Microsoft Entra ID as the Identity Provider.
-
-![SAML Certificate Metadata](screenshots/12-SAML-Certificate-Metadata.png)
-
-**Result**
-
-The Identity Provider metadata source was identified.
-
----
-
-## Step 12 — Configure Grafana IdP Metadata
-
-Grafana was configured with the Microsoft Entra App Federation Metadata URL. This corrected an earlier issue where the Entra portal URL was entered instead of the real metadata endpoint.
-
-![Grafana IdP Metadata](screenshots/13-Grafana-Identity-Provider-Metadata.png)
-
-**Result**
-
-Grafana accepted the correct Identity Provider metadata.
-
----
-
-## Step 13 — Configure User Mapping
-
-Grafana user mapping was configured so SAML claims from Microsoft Entra ID could map to Grafana user fields.
-
-| Grafana Field | Entra Claim |
+| Claim | Value |
 |---|---|
-| Name | `name` |
-| Login | `NameID` |
-| Email | `mail` |
-| Groups | `groups` |
-
-![Grafana User Mapping](screenshots/14-Grafana-User-Mapping.png)
-
-**Result**
-
-Grafana can map authenticated Entra users to Grafana identities.
+| NameID | Primary user identifier |
+| Email | User email mapping |
+| Display Name | User profile display |
+| Group Claim | Future RBAC mapping |
 
 ---
 
-## Step 14 — Enable SAML
+## Validation
 
-After metadata, claims, and user mappings were configured, SAML was enabled in Grafana.
-
-![SAML Enabled](screenshots/15-SAML-Configuration-Enabled.png)
-
-**Result**
-
-The Grafana SAML provider was enabled.
+- SAML application created in Microsoft Entra ID.
+- Grafana SAML settings populated with Entra IdP values.
+- Microsoft Entra metadata confirmed available.
+- Group claim configuration added.
+- SAML configuration reached ready state.
 
 ---
 
-## Step 15 — Ready for Authentication Testing
+## Screenshots
 
-The SAML configuration was completed and is ready for user assignment and authentication testing.
+### 1. Application Overview
+Shows the Grafana Enterprise Application created in Microsoft Entra ID.
+![Application Overview](../../screenshots/01-Application-Overview.png)
 
-![SAML Ready](screenshots/16-SAML-Configuration-Ready.png)
+### 2. Blank SAML Configuration
+Shows the initial SAML configuration state before values were added.
+![Blank SAML](../../screenshots/02-SAML-Configuration-Blank.png)
 
-**Result**
+### 3. Basic SAML Configuration
+Shows the Entity ID and Reply URL configured in Microsoft Entra ID.
+![Basic SAML](../../screenshots/07-Entra-Basic-SAML-Configuration.png)
 
-OmniVerse Grafana is configured for Microsoft Entra SAML authentication.
+### 4. Grafana SAML Settings
+Shows the Grafana-side SAML configuration where IdP values were entered.
+![Grafana SAML](../../screenshots/04-Grafana-SAML-Settings.png)
+
+### 5. Attributes and Claims
+Shows default claim mappings configured in Microsoft Entra ID.
+![Claims](../../screenshots/08-Default-Attributes-Claims.png)
+
+### 6. Group Claim Added
+Shows group claim configuration for future RBAC.
+![Group Claim](../../screenshots/11-Group-Claim-Added.png)
+
+### 7. SAML Certificate Metadata
+Shows the Microsoft Entra SAML certificate and metadata values.
+![Certificate](../../screenshots/12-SAML-Certificate-Metadata.png)
+
+### 8. SAML Configuration Ready
+Shows the SAML configuration reaching a ready state.
+![Ready](../../screenshots/16-SAML-Configuration-Ready.png)
 
 ---
 
-## Troubleshooting Highlight
+## Troubleshooting
 
-During configuration, Grafana displayed:
+### Reply URL Mismatch
+Verify the Reply URL in Entra matches the Grafana ACS URL exactly, including trailing slashes.
 
-`Failed to update provider settings`
-
-The issue was caused by entering the Microsoft Entra portal URL instead of the **App Federation Metadata URL**.
-
-**Resolution**
-
-The correct federation metadata URL was copied from the Microsoft Entra SAML Certificates section and entered into Grafana.
+### Certificate Metadata Issues
+Ensure the Entra SAML signing certificate is downloaded in Base64 format and correctly referenced in Grafana.
 
 ---
 
-## Outcome
+## Engineering Takeaways
 
-The Grafana SAML integration was configured and enabled using Microsoft Entra ID as the Identity Provider. The application is ready for user assignment, login testing, and future RBAC role mapping.
+This onboarding demonstrated SAML application onboarding, IdP/SP metadata exchange, certificate handling, claims review, and RBAC planning for an infrastructure monitoring platform.
 
+---
 
+## Future Enhancements
+
+- Group-based RBAC mapping from Entra groups to Grafana roles
+- Automated provisioning via SCIM
+- Conditional Access policy integration

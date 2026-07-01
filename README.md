@@ -1,60 +1,43 @@
 # IAM-003 - Enterprise Application Onboarding & SSO
 
+> OmniVerse Enterprise Engineering Portfolio
+
 ## Overview
 
 This repository documents enterprise application onboarding into Microsoft Entra ID using SAML 2.0, OpenID Connect, OAuth 2.0, and SCIM 2.0 provisioning.
 
-The goal of this project is to demonstrate a repeatable IAM application onboarding workflow across real enterprise SaaS and internal applications.
+Each application package follows a consistent engineering format covering the business request, architecture, implementation, validation, and troubleshooting — the same structure an IAM team would produce for a real enterprise onboarding engagement.
 
 ---
 
 ## Enterprise Application Onboarding Catalog
 
-| Application | Protocol | Status | Guide |
-|---|---|:---:|---|
-| Grafana | SAML 2.0 | ✅ | [Setup Guide](apps/Grafana/README.md) |
-| WordPress | OIDC | ✅ | [Setup Guide](apps/WordPress/README.md) |
-| GitHub Enterprise Cloud | SAML 2.0 | ✅ | [Setup Guide](apps/GitHub-Enterprise/README.md) |
-| Salesforce | SAML 2.0 | ✅ | [Setup Guide](apps/Salesforce/README.md) |
-| Atlassian Jira Cloud | SAML 2.0 | ✅ | [Setup Guide](apps/Jira/README.md) |
-| Cisco Duo | OAuth 2.0 / Admin Consent | ✅ | [Setup Guide](apps/Cisco-Duo/README.md) |
-| Keycloak | SAML 2.0 Federation | ✅ | [Setup Guide](apps/Keycloak/README.md) |
-| SCIM Provisioning | SCIM 2.0 | ✅ | [Setup Guide](apps/SCIM-Provisioning/README.md) |
-| ServiceNow | SAML 2.0 | 🚧 In Progress | [Setup Guide](apps/ServiceNow/README.md) |
+| # | Application | Protocol | Guide |
+|---|---|---|---|
+| APP-1001 | Grafana | SAML 2.0 | [Setup Guide](apps/Grafana/README.md) |
+| APP-1002 | WordPress | OpenID Connect | [Setup Guide](apps/WordPress/README.md) |
+| APP-1003 | GitHub Enterprise Cloud | SAML 2.0 | [Setup Guide](apps/GitHub-Enterprise/README.md) |
+| APP-1004 | Salesforce | SAML 2.0 | [Setup Guide](apps/Salesforce/README.md) |
+| APP-1005 | Atlassian Jira Cloud | SAML 2.0 | [Setup Guide](apps/Jira/README.md) |
+| APP-1006 | Cisco Duo | OAuth 2.0 / Admin Consent | [Setup Guide](apps/Cisco-Duo/README.md) |
+| APP-1007 | Keycloak | SAML 2.0 Federation | [Setup Guide](apps/Keycloak/README.md) |
+| APP-1008 | SCIM Provisioning | SCIM 2.0 | [Setup Guide](apps/SCIM-Provisioning/README.md) |
 
 ---
 
 ## Standard Onboarding Workflow
 
-```text
-Business Request
-        |
-        v
-Authentication Protocol Selection
-        |
-        v
-Provisioning Method Review
-        |
-        v
-Groups / RBAC Planning
-        |
-        v
-Claims / Attribute Mapping
-        |
-        v
-Microsoft Entra ID Configuration
-        |
-        v
-Application-Side Configuration
-        |
-        v
-Validation and Sign-in Testing
-        |
-        v
-Troubleshooting
-        |
-        v
-Operational Handoff
+```mermaid
+flowchart TD
+    A[Business Request] --> B[Protocol Selection]
+    B --> C[Provisioning Method]
+    C --> D[Groups and RBAC Planning]
+    D --> E[Claims and Attribute Mapping]
+    E --> F[Microsoft Entra ID Configuration]
+    F --> G[Application-Side Configuration]
+    G --> H[Validation and Testing]
+    H --> I[Troubleshooting]
+    I --> J[Operational Handoff]
 ```
 
 ---
@@ -73,11 +56,9 @@ Operational Handoff
 - Keycloak Administration
 - JIT Provisioning
 - Claims and Attribute Mapping
-- Group Assignment Planning
 - X.509 Certificate Handling
 - Metadata Exchange
-- SSO Validation
-- Troubleshooting
+- SSO Validation and Troubleshooting
 - Operational Handoff Documentation
 
 ---
