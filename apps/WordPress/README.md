@@ -1,4 +1,4 @@
-## Enterprise Application Packages
+﻿## Enterprise Application Packages
 
 - [Repository Home](../../README.md)
 - [Grafana SAML Onboarding](../Grafana/README.md)
@@ -271,4 +271,5 @@ The completed implementation provides a repeatable onboarding process that can b
 - Integrate Conditional Access policies
 - Automate application onboarding using Microsoft Graph
 - Expand monitoring using Microsoft Entra Sign-in Logs and Microsoft Sentinel
+
 

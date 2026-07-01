@@ -1,4 +1,4 @@
-## Enterprise Application Packages
+﻿## Enterprise Application Packages
 
 - [Repository Home](../../README.md)
 - [WordPress OIDC Onboarding](../WordPress/README.md)
@@ -243,4 +243,5 @@ The correct federation metadata URL was copied from the Microsoft Entra SAML Cer
 ## Outcome
 
 The Grafana SAML integration was configured and enabled using Microsoft Entra ID as the Identity Provider. The application is ready for user assignment, login testing, and future RBAC role mapping.
+
 

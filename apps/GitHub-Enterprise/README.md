@@ -1,4 +1,4 @@
-## Enterprise Application Packages
+﻿## Enterprise Application Packages
 
 - [Repository Home](../../README.md)
 - [Grafana SAML Onboarding](../Grafana/README.md)
@@ -237,3 +237,4 @@ Key engineering activities included:
 - Document break-glass recovery procedure
 - Monitor GitHub SSO sign-ins through Microsoft Entra logs
 - Add access reviews for GitHub organization membership
+
