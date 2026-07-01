@@ -18,8 +18,8 @@ The goal of this project is to demonstrate a repeatable IAM application onboardi
 | Salesforce | SAML 2.0 | ✅ | [Setup Guide](apps/Salesforce/README.md) |
 | Atlassian Jira Cloud | SAML 2.0 | ✅ | [Setup Guide](apps/Jira/README.md) |
 | Cisco Duo | OAuth 2.0 / Admin Consent | ✅ | [Setup Guide](apps/Cisco-Duo/README.md) |
+| Keycloak | SAML 2.0 Federation | ✅ | [Setup Guide](apps/Keycloak/README.md) |
 | ServiceNow | SAML 2.0 | 🚧 In Progress | [Setup Guide](apps/ServiceNow/README.md) |
-| Keycloak | OIDC / SAML | ⏳ Planned | [Setup Guide](apps/Keycloak/README.md) |
 | SCIM Provisioning | SCIM 2.0 | ⏳ Planned | [Setup Guide](apps/SCIM-Provisioning/README.md) |
 
 ---
@@ -68,6 +68,9 @@ Operational Handoff
 - OpenID Connect
 - OAuth 2.0
 - Admin Consent Workflows
+- Identity Provider Brokering
+- Keycloak Administration
+- JIT Provisioning
 - SCIM Provisioning Concepts
 - Claims and Attribute Mapping
 - Group Assignment Planning
