@@ -3,237 +3,176 @@
 - [Repository Home](../../README.md)
 - [Grafana SAML Onboarding](../Grafana/README.md)
 - [WordPress OIDC Onboarding](../WordPress/README.md)
-- [ServiceNow SAML Onboarding](../ServiceNow/README.md)
+- [GitHub Enterprise SAML Onboarding](../GitHub-Enterprise/README.md)
 - [Salesforce SAML Onboarding](../Salesforce/README.md)
-- [Custom OIDC Application](../Custom-OIDC-App/README.md)
+- [Atlassian Jira SAML Onboarding](../Jira/README.md)
+- [ServiceNow SAML Onboarding](../ServiceNow/README.md)
+- [Slack SAML Onboarding](../Slack/README.md)
+- [Zoom SAML Onboarding](../Zoom/README.md)
 - [SCIM Provisioning](../SCIM-Provisioning/README.md)
 
 ---
+# APP-1003 — GitHub Enterprise Cloud Application Onboarding
 
-# APP-1003 — GitHub Enterprise Cloud SAML Onboarding
+## 1. Business Request
 
-## Overview
-
-This application onboarding package documents the integration of GitHub Enterprise Cloud with Microsoft Entra ID using SAML 2.0. The objective was to centralize authentication for GitHub Enterprise Cloud, reduce standalone credential usage, and validate a real enterprise federation workflow.
-
-This onboarding was completed against a GitHub Enterprise Cloud trial environment and Microsoft Entra ID tenant.
+The Development Engineering team requested Single Sign-On for GitHub Enterprise Cloud to centralize authentication, reduce standalone credentials, and protect enterprise repositories through Microsoft Entra ID.
 
 ---
 
-## Business Request
-
-The Development Engineering team requested Single Sign-On for GitHub Enterprise Cloud to centralize identity management, enforce corporate authentication policies, and prepare GitHub access for future governance, provisioning, and lifecycle automation.
-
----
-
-## Business Requirements
-
-- Integrate GitHub Enterprise Cloud with Microsoft Entra ID
-- Authenticate users using SAML 2.0
-- Centralize GitHub authentication through the corporate identity provider
-- Reduce local credential dependency
-- Configure token signing certificate trust
-- Validate SAML authentication before enforcing SSO
-- Document implementation, troubleshooting, and operational handoff
-
----
-
-## Why SAML?
-
-GitHub Enterprise Cloud supports enterprise SSO using SAML and OIDC. SAML was selected for this onboarding because it is widely used for enterprise SaaS federation and remains a common requirement in IAM engineering roles.
-
-SAML allows GitHub Enterprise Cloud to trust Microsoft Entra ID as the Identity Provider while GitHub operates as the Service Provider. Microsoft Entra ID authenticates the user and issues a signed SAML assertion. GitHub validates the assertion using the configured issuer, sign-on URL, and X.509 signing certificate.
-
----
-
-## Implementation Summary
+## 2. Authentication Protocol
 
 | Area | Configuration |
 |---|---|
-| Application | GitHub Enterprise Cloud |
 | Protocol | SAML 2.0 |
 | Identity Provider | Microsoft Entra ID |
 | Service Provider | GitHub Enterprise Cloud |
-| Enterprise | OmniVerse Enterprise |
-| Provisioning | Manual |
+| Authentication Flow | Enterprise SAML SSO |
 | Certificate | Microsoft Entra token signing certificate |
-| Status | Successfully Configured and Validated |
 
 ---
 
-## SAML Configuration
+## 3. Provisioning Method
 
-| Setting | Value |
+| Area | Configuration |
 |---|---|
-| Entity ID | `https://github.com/enterprises/omniverse-enterprise` |
-| Reply URL / ACS URL | `https://github.com/enterprises/omniverse-enterprise/saml/consume` |
-| Sign-On URL | Microsoft Entra Login URL |
-| Issuer | Microsoft Entra Identifier |
-| Certificate | Entra ID X.509 token signing certificate |
-| Signature Method | RSA-SHA256 |
-| Digest Method | SHA256 |
+| Provisioning Method | Manual |
+| SCIM | Not configured in this phase |
+| Future State | SCIM provisioning and group synchronization |
 
 ---
 
-## Claims Mapping
+## 4. Groups / RBAC
 
-| Claim | Source Attribute |
+GitHub Enterprise access can be controlled through organizations, teams, and repository permissions.
+
+| Group | Purpose |
 |---|---|
-| Given Name | `user.givenname` |
-| Surname | `user.surname` |
-| Email Address | `user.mail` |
-| Name | `user.userprincipalname` |
-| Unique User Identifier | `user.userprincipalname` |
+| GitHub-Enterprise-Admins | Enterprise administration |
+| GitHub-Org-Owners | Organization ownership |
+| GitHub-Developers | Repository contributor access |
+| GitHub-Readers | Read-only repository access |
 
 ---
 
-## Validation Results
+## 5. Claims / Attributes
 
-Validation confirmed that:
+| Claim | Source |
+|---|---|
+| givenname | user.givenname |
+| surname | user.surname |
+| emailaddress | user.mail |
+| name | user.userprincipalname |
+| NameID | user.userprincipalname |
 
-- GitHub Enterprise redirected authentication to Microsoft Entra ID.
+---
+
+## 6. Configuration Steps
+
+1. Created a GitHub Enterprise Cloud trial.
+2. Created the OmniVerse Enterprise GitHub organization.
+3. Opened GitHub Enterprise authentication security settings.
+4. Created the GitHub Enterprise Cloud Enterprise Application in Microsoft Entra ID.
+5. Configured Basic SAML settings.
+6. Downloaded the Microsoft Entra token signing certificate.
+7. Entered Entra IdP values into GitHub Enterprise.
+8. Tested SAML authentication.
+9. Validated successful SAML identity authentication.
+
+---
+
+## 7. Validation
+
+- GitHub redirected authentication to Microsoft Entra ID.
 - Microsoft Entra ID authenticated the user.
-- GitHub Enterprise accepted the SAML response.
-- The SAML trust relationship was successfully validated.
-- GitHub displayed a successful SAML authentication result.
-
-**Result:** Passed — Successfully authenticated the SAML SSO identity.
+- GitHub accepted the SAML assertion.
+- GitHub displayed a successful SAML validation message.
 
 ---
 
-# Screenshots
+## 8. Troubleshooting
 
-## 1. GitHub Enterprise Trial Creation
+### Issue 1 — Wrong GitHub Enterprise Application Type
 
-This screenshot documents the creation of the GitHub Enterprise Cloud trial environment. Microsoft Entra ID was selected as the identity provider during setup, which aligns the enterprise environment with the centralized identity model used across OmniVerse Enterprise.
+The initial configuration used the wrong GitHub Enterprise app type. The configuration was corrected by aligning the Entra application with the GitHub Enterprise SAML configuration.
 
-![GitHub Enterprise Trial](../../screenshots/01-github-enterprise-trial.png)
+### Issue 2 — AADSTS650056 Misconfigured Application
 
----
-
-## 2. GitHub Organization Created
-
-This screenshot shows the OmniVerse Enterprise GitHub organization. The organization provides the application scope that will later be protected by enterprise-level SAML authentication.
-
-![GitHub Organization Created](../../screenshots/02-github-organization-created.png)
+The first test returned a misconfigured application error due to a mismatch between the application template and GitHub Enterprise SAML request. After selecting the correct app and updating SAML values, validation succeeded.
 
 ---
 
-## 3. GitHub Authentication Security Settings
+## 9. Operational Handoff
 
-This screenshot shows the GitHub Enterprise authentication security area where SAML Single Sign-On is configured. This confirms that the GitHub Enterprise environment supports enterprise identity provider integration.
-
-![GitHub Authentication Security](../../screenshots/03-github-security-settings.png)
-
----
-
-## 4. Microsoft Entra Gallery Application
-
-This screenshot documents selection of the GitHub Enterprise Cloud application from the Microsoft Entra application gallery. Choosing the correct gallery application is important because GitHub provides different integrations for organization-level and enterprise-level SSO.
-
-![Microsoft Entra Gallery Application](../../screenshots/04-github-enterprise-gallery-application.png)
+| Area | Owner |
+|---|---|
+| Application Owner | Development Engineering |
+| Identity Owner | IAM Team |
+| Authentication | SAML 2.0 |
+| Provisioning | Manual |
+| Future Work | SCIM, group sync, access reviews |
 
 ---
 
-## 5. GitHub SAML Configuration Page
+## 10. Screenshots
 
-This screenshot shows the GitHub Enterprise SAML configuration page where the Microsoft Entra Login URL, Issuer, and public X.509 signing certificate are entered. These values establish trust between GitHub Enterprise Cloud and Microsoft Entra ID.
+### 1. GitHub Enterprise Trial
 
-![GitHub SAML Configuration Page](../../screenshots/05-github-saml-configuration-page.png)
+Shows the GitHub Enterprise Cloud trial setup.
+
+![GitHub Enterprise Trial](screenshots/01-github-enterprise-trial.png)
+
+---
+### 2. GitHub Organization Created
+
+Shows the OmniVerse GitHub organization.
+
+![GitHub Organization Created](screenshots/02-github-organization-created.png)
+
+---
+### 3. Authentication Security
+
+Shows where enterprise authentication settings are managed.
+
+![Authentication Security](screenshots/03-github-security-settings.png)
+
+---
+### 4. Microsoft Entra Gallery Application
+
+Shows GitHub Enterprise Cloud selected from the Entra gallery.
+
+![Microsoft Entra Gallery Application](screenshots/04-github-enterprise-gallery-application.png)
+
+---
+### 5. GitHub SAML Configuration
+
+Shows the GitHub SAML configuration page where Entra IdP values were entered.
+
+![GitHub SAML Configuration](screenshots/05-github-saml-configuration-page.png)
+
+---
+### 6. Basic SAML Configuration
+
+Shows Entra Basic SAML settings configured for GitHub Enterprise.
+
+![Basic SAML Configuration](screenshots/06-github-basic-saml-configuration.png)
+
+---
+### 7. SAML Authentication
+
+Shows Microsoft Entra authentication during the GitHub SAML test.
+
+![SAML Authentication](screenshots/07-github-saml-authentication.png)
+
+---
+### 8. Successful Validation
+
+Shows GitHub successfully validating the SAML identity.
+
+![Successful Validation](screenshots/08-github-saml-validation-success.png)
 
 ---
 
-## 6. Microsoft Entra Basic SAML Configuration
+## Engineering Takeaways
 
-This screenshot shows the completed Basic SAML Configuration in Microsoft Entra ID. The Entity ID and Reply URL establish the Service Provider details required for Entra ID to issue SAML assertions to GitHub Enterprise Cloud.
-
-![Basic SAML Configuration](../../screenshots/06-github-basic-saml-configuration.png)
-
----
-
-## 7. SAML Authentication Test
-
-This screenshot shows Microsoft Entra ID authentication during the GitHub SAML validation process. The redirect to Microsoft confirms that GitHub is using Microsoft Entra ID as the configured Identity Provider.
-
-![SAML Authentication Test](../../screenshots/07-github-saml-authentication.png)
-
----
-
-## 8. Successful SAML Validation
-
-This screenshot confirms that GitHub Enterprise successfully validated the SAML configuration. The successful test proves that Microsoft Entra ID issued a valid SAML response and GitHub Enterprise accepted it.
-
-![Successful SAML Validation](../../screenshots/08-github-saml-validation-success.png)
-
----
-
-# Troubleshooting
-
-## Issue 1 — Wrong GitHub Enterprise Application Type
-
-### Problem
-
-The first Microsoft Entra gallery application selected was not aligned with the GitHub Enterprise SSO configuration being performed.
-
-### Root Cause
-
-GitHub provides multiple Microsoft Entra gallery applications, including organization-level and enterprise-level integrations. Selecting the wrong application type can cause mismatched identifiers, reply URLs, or SAML request behavior.
-
-### Resolution
-
-The GitHub Enterprise Cloud Enterprise Account application was selected and configured with the enterprise-level GitHub SAML values.
-
-### Result
-
-The SAML configuration matched the GitHub Enterprise environment and authentication testing proceeded successfully.
-
----
-
-## Issue 2 — AADSTS650056 Misconfigured Application
-
-### Problem
-
-During testing, Microsoft Entra ID returned an AADSTS650056 misconfigured application error.
-
-### Root Cause
-
-The SAML request was associated with a different client application than the one configured in Microsoft Entra ID. This indicated a mismatch between the selected GitHub gallery application and the GitHub Enterprise SAML configuration.
-
-### Resolution
-
-The application selection and SAML configuration were reviewed. The correct GitHub Enterprise application was configured with the enterprise ACS URL, Entity ID, and Microsoft Entra IdP metadata.
-
-### Result
-
-GitHub Enterprise successfully authenticated the SAML SSO identity after the configuration was corrected.
-
----
-
-# Engineering Takeaways
-
-This onboarding demonstrated a real enterprise SAML federation between GitHub Enterprise Cloud and Microsoft Entra ID.
-
-Key engineering activities included:
-
-- Enterprise application onboarding
-- SAML 2.0 federation
-- Microsoft Entra gallery application selection
-- Entity ID and ACS URL configuration
-- X.509 certificate trust
-- Metadata exchange
-- Claims mapping
-- SAML validation
-- Authentication troubleshooting
-- Enterprise documentation
-
----
-
-# Future Enhancements
-
-- Enforce SAML SSO after validating break-glass access
-- Configure SCIM provisioning if available
-- Add Microsoft Entra group-based assignment
-- Integrate Conditional Access policies
-- Document break-glass recovery procedure
-- Monitor GitHub SSO sign-ins through Microsoft Entra logs
-- Add access reviews for GitHub organization membership
+This onboarding demonstrated enterprise-level SaaS federation, certificate trust, gallery application selection, SAML troubleshooting, and validation of a real GitHub Enterprise SAML integration.

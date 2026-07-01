@@ -4,280 +4,181 @@
 - [Grafana SAML Onboarding](../Grafana/README.md)
 - [WordPress OIDC Onboarding](../WordPress/README.md)
 - [GitHub Enterprise SAML Onboarding](../GitHub-Enterprise/README.md)
+- [Salesforce SAML Onboarding](../Salesforce/README.md)
+- [Atlassian Jira SAML Onboarding](../Jira/README.md)
 - [ServiceNow SAML Onboarding](../ServiceNow/README.md)
-- [Custom OIDC Application](../Custom-OIDC-App/README.md)
+- [Slack SAML Onboarding](../Slack/README.md)
+- [Zoom SAML Onboarding](../Zoom/README.md)
 - [SCIM Provisioning](../SCIM-Provisioning/README.md)
 
 ---
+# APP-1004 — Salesforce Application Onboarding
 
-# APP-1004 — Salesforce SAML Onboarding
+## 1. Business Request
 
-## Overview
-
-This application onboarding package documents the integration of Salesforce Developer Edition with Microsoft Entra ID using SAML 2.0.
-
-The objective was to centralize authentication for Salesforce through Microsoft Entra ID, validate SAML-based Single Sign-On, and document a repeatable enterprise onboarding process for SaaS applications.
+The Sales Operations team requested Single Sign-On for Salesforce to reduce local credential management, improve security, and align Salesforce access with Microsoft Entra ID.
 
 ---
 
-## Business Request
-
-The Sales Operations team requested Single Sign-On for Salesforce to reduce local credential management, improve authentication security, and align Salesforce access with the organization's centralized identity platform.
-
----
-
-## Business Requirements
-
-- Integrate Salesforce with Microsoft Entra ID
-- Authenticate users using SAML 2.0
-- Use Salesforce My Domain for SSO routing
-- Configure Microsoft Entra ID as the Identity Provider
-- Configure Salesforce as the Service Provider
-- Validate successful SSO from Microsoft Entra ID
-- Document configuration, screenshots, and operational lessons learned
-
----
-
-## Why SAML?
-
-Salesforce is a mature enterprise SaaS platform that commonly supports SAML 2.0 federation with enterprise identity providers.
-
-SAML was selected because it allows Microsoft Entra ID to authenticate users and send a signed assertion to Salesforce. Salesforce validates the assertion using the configured issuer, certificate, ACS URL, and user identifier mapping.
-
-This mirrors a common real-world IAM onboarding process for enterprise SaaS applications.
-
----
-
-## Implementation Summary
+## 2. Authentication Protocol
 
 | Area | Configuration |
 |---|---|
-| Application | Salesforce Developer Edition |
 | Protocol | SAML 2.0 |
 | Identity Provider | Microsoft Entra ID |
 | Service Provider | Salesforce |
-| Salesforce Domain | My Domain enabled |
-| Provisioning | Manual |
+| Authentication Flow | IdP-Initiated SAML |
 | Certificate | Microsoft Entra token signing certificate |
-| Status | Successfully Configured and Validated |
 
 ---
 
-## Environment Details
+## 3. Provisioning Method
 
-| Item | Value |
+| Area | Configuration |
 |---|---|
-| Salesforce Org | OmniVerse |
-| Salesforce Edition | Developer Edition |
-| My Domain | `orgfarm-f3028ef358-dev-ed.develop.my.salesforce.com` |
-| Salesforce Organization ID | `00Dfj00000T4EJp` |
-| Identity Provider | Microsoft Entra ID |
-| Tenant ID | `427c9654-7012-4c8c-be66-268eb6b12f32` |
+| Provisioning Method | Manual |
+| SCIM | Not configured |
+| Future State | Automated provisioning and Federation ID mapping |
 
 ---
 
-## SAML Configuration
+## 4. Groups / RBAC
 
-| Setting | Value |
+Salesforce access was manually validated in this phase. Future state would use Entra groups for assignment and Salesforce profiles/permission sets for authorization.
+
+| Group | Purpose |
 |---|---|
-| Identifier / Entity ID | `https://saml.salesforce.com` |
-| Reply URL / ACS URL | `https://orgfarm-f3028ef358-dev-ed.develop.my.salesforce.com/?so=00Dfj00000T4EJp` |
-| Sign-on URL | `https://orgfarm-f3028ef358-dev-ed.develop.my.salesforce.com` |
-| Identity Provider Login URL | Microsoft Entra SAML Login URL |
-| Issuer | Microsoft Entra Identifier |
-| SAML Version | 2.0 |
-| Request Binding | HTTP POST |
+| Salesforce-Admins | Salesforce administrators |
+| Salesforce-SalesOps | Sales operations users |
+| Salesforce-ReadOnly | Read-only reporting users |
 
 ---
 
-## Configuration Highlights
+## 5. Claims / Attributes
 
-The implementation included:
-
-- Creating a Salesforce Developer Edition environment
-- Confirming Salesforce My Domain was deployed
-- Creating the Salesforce Enterprise Application in Microsoft Entra ID
-- Configuring Basic SAML settings in Microsoft Entra ID
-- Downloading the Microsoft Entra token signing certificate
-- Creating a SAML Single Sign-On configuration in Salesforce
-- Uploading the Microsoft Entra certificate into Salesforce
-- Mapping the SAML identity location to the NameIdentifier element
-- Testing SSO from Microsoft Entra ID into Salesforce
-- Validating successful Salesforce login through federated authentication
+| Attribute | Purpose |
+|---|---|
+| NameID | Salesforce username or Federation ID |
+| user.userprincipalname | Primary user identifier |
+| user.mail | Email address |
+| givenname | First name |
+| surname | Last name |
 
 ---
 
-## Validation Results
+## 6. Configuration Steps
 
-Validation confirmed:
-
-- Microsoft Entra ID successfully initiated SAML authentication
-- Salesforce accepted the SAML assertion
-- Salesforce login completed successfully through SSO
-- The configured Salesforce SAML settings were saved successfully
-- The user reached the Salesforce application without using standalone Salesforce credentials
-
----
-
-# Screenshots
-
-## 1. Salesforce Home
-
-This screenshot shows the Salesforce Developer Edition environment used for the onboarding. It establishes the application baseline before SAML authentication was configured.
-
-![Salesforce Home](../../screenshots/01-salesforce-home.png)
+1. Created a Salesforce Developer Edition environment.
+2. Confirmed Salesforce My Domain was deployed.
+3. Retrieved the Salesforce Organization ID.
+4. Created the Salesforce Enterprise Application in Microsoft Entra ID.
+5. Configured Entity ID, Reply URL, and Sign-on URL.
+6. Downloaded the Microsoft Entra SAML certificate.
+7. Configured Salesforce SAML Single Sign-On settings.
+8. Uploaded the Entra certificate into Salesforce.
+9. Tested SSO from Microsoft Entra ID.
+10. Validated successful Salesforce access.
 
 ---
 
-## 2. Salesforce Single Sign-On Settings
+## 7. Validation
 
-This screenshot shows the Salesforce Single Sign-On Settings page before or during SAML configuration. This is where Salesforce administrators create SAML configurations for external identity providers.
-
-![Salesforce SSO Settings](../../screenshots/02-salesforce-sso-settings.png)
-
----
-
-## 3. Salesforce Enterprise Application in Microsoft Entra Gallery
-
-This screenshot documents the Salesforce gallery application inside Microsoft Entra ID. Using the official gallery application helps standardize the SAML integration and provides recommended configuration patterns.
-
-![Salesforce Gallery App](../../screenshots/03-salesforce-gallery-app.png)
+- Entra accepted the Salesforce SAML configuration.
+- Salesforce accepted the IdP certificate and login URL.
+- SSO test completed from Microsoft Entra ID.
+- User landed successfully in Salesforce.
 
 ---
 
-## 4. Microsoft Entra Basic SAML Configuration
-
-This screenshot shows the Basic SAML Configuration in Microsoft Entra ID. The Identifier, Reply URL, and Sign-on URL define how Microsoft Entra ID sends the SAML response to Salesforce.
-
-![Salesforce Basic SAML](../../screenshots/04-salesforce-basic-saml.png)
-
----
-
-## 5. Salesforce SAML Configuration
-
-This screenshot shows the Salesforce-side SAML configuration where Microsoft Entra ID is configured as the Identity Provider. This includes the issuer, certificate, login URL, entity ID, and SAML identity settings.
-
-![Salesforce SAML Settings](../../screenshots/05-salesforce-saml-settings.png)
-
----
-
-## 6. Salesforce SAML Configuration Saved
-
-This screenshot confirms that the SAML configuration was successfully saved inside Salesforce. This validates that Salesforce accepted the IdP metadata and SAML settings.
-
-![Salesforce SAML Configured](../../screenshots/06-salesforce-saml-configured.png)
-
----
-
-## 7. Microsoft Entra SAML Test
-
-This screenshot documents the Microsoft Entra SAML test workflow. Testing from Entra confirms that the Enterprise Application can initiate the SAML flow toward Salesforce.
-
-![Salesforce SAML Test](../../screenshots/07-salesforce-saml-test.png)
-
----
-
-## 8. Successful Salesforce SSO Login
-
-This screenshot confirms successful login to Salesforce after SAML authentication. This is the final validation that Microsoft Entra ID and Salesforce established a working federation relationship.
-
-![Salesforce SSO Success](../../screenshots/08-salesforce-sso-success.png)
-
----
-
-## Troubleshooting
+## 8. Troubleshooting
 
 ### Issue 1 — Reply URL Format
 
-#### Problem
+Microsoft Entra rejected the Reply URL until a slash was added before the query parameter.
 
-Microsoft Entra ID rejected the Salesforce Reply URL when it was entered without a slash before the query string.
+Correct format:
 
-#### Root Cause
-
-The initial Reply URL used this format:
-
-```text
-https://orgfarm-f3028ef358-dev-ed.develop.my.salesforce.com?so=00Dfj00000T4EJp
-```
-
-Microsoft Entra ID required a slash before the query parameter.
-
-#### Resolution
-
-The Reply URL was corrected to:
-
-```text
+``text
 https://orgfarm-f3028ef358-dev-ed.develop.my.salesforce.com/?so=00Dfj00000T4EJp
-```
-
-#### Result
-
-Microsoft Entra ID accepted the Basic SAML Configuration.
-
----
+``
 
 ### Issue 2 — Salesforce Organization ID Required
 
-#### Problem
+The Salesforce ACS URL required the Salesforce Organization ID from Company Information.
 
-The correct ACS URL required the Salesforce Organization ID.
+---
 
-#### Root Cause
+## 9. Operational Handoff
 
-Salesforce uses the `so=` query parameter to identify the correct Salesforce organization during SAML authentication.
+| Area | Owner |
+|---|---|
+| Application Owner | Sales Operations |
+| Identity Owner | IAM Team |
+| Authentication | SAML 2.0 |
+| Provisioning | Manual |
+| Future Work | SCIM, Federation ID, Conditional Access |
 
-#### Resolution
+---
 
-The Salesforce Organization ID was retrieved from:
+## 10. Screenshots
 
-```text
-Setup → Company Information
-```
+### 1. Salesforce Home
 
-The organization ID used was:
+Shows the Salesforce Developer Edition environment.
 
-```text
-00Dfj00000T4EJp
-```
+![Salesforce Home](screenshots/01-salesforce-home.png)
 
-#### Result
+---
+### 2. Salesforce SSO Settings
 
-The correct Salesforce ACS URL was built and accepted by Microsoft Entra ID.
+Shows the Salesforce Single Sign-On Settings page.
+
+![Salesforce SSO Settings](screenshots/02-salesforce-sso-settings.png)
+
+---
+### 3. Salesforce Gallery Application
+
+Shows the Salesforce Enterprise Application in the Entra gallery.
+
+![Salesforce Gallery Application](screenshots/03-salesforce-gallery-app.png)
+
+---
+### 4. Basic SAML Configuration
+
+Shows the Entra Basic SAML Configuration for Salesforce.
+
+![Basic SAML Configuration](screenshots/04-salesforce-basic-saml.png)
+
+---
+### 5. Salesforce SAML Settings
+
+Shows the Salesforce-side SAML configuration.
+
+![Salesforce SAML Settings](screenshots/05-salesforce-saml-settings.png)
+
+---
+### 6. SAML Configured
+
+Shows Salesforce SAML configuration saved successfully.
+
+![SAML Configured](screenshots/06-salesforce-saml-configured.png)
+
+---
+### 7. SAML Test
+
+Shows the Entra SAML test workflow.
+
+![SAML Test](screenshots/07-salesforce-saml-test.png)
+
+---
+### 8. SSO Success
+
+Shows successful access to Salesforce after SAML authentication.
+
+![SSO Success](screenshots/08-salesforce-sso-success.png)
 
 ---
 
 ## Engineering Takeaways
 
-This onboarding demonstrated a full enterprise SAML integration between Salesforce and Microsoft Entra ID.
-
-Key engineering activities included:
-
-- Enterprise application onboarding
-- Salesforce My Domain validation
-- Microsoft Entra Enterprise Application configuration
-- SAML 2.0 federation
-- ACS URL construction
-- Entity ID configuration
-- SAML certificate exchange
-- Identity Provider configuration
-- Service Provider configuration
-- SSO testing and validation
-- Troubleshooting Reply URL formatting issues
-
----
-
-## Business Outcome
-
-Salesforce was successfully integrated with Microsoft Entra ID using SAML 2.0. The implementation centralizes authentication, reduces local credential dependency, and provides a repeatable onboarding model for future SaaS integrations across OmniVerse Enterprise.
-
----
-
-## Future Enhancements
-
-- Enable group-based access assignment
-- Configure Federation ID mapping for enterprise-scale user matching
-- Integrate Conditional Access policies
-- Document Salesforce user provisioning options
-- Explore SCIM or automated lifecycle management
-- Add Salesforce sign-in monitoring to Microsoft Sentinel
+This onboarding demonstrated Salesforce My Domain, ACS URL construction, certificate exchange, SAML identity mapping, and successful Entra-to-Salesforce SSO validation.
