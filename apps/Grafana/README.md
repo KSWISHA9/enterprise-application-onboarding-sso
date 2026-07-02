@@ -86,35 +86,43 @@ flowchart LR
 
 ### 1. Application Overview
 Shows the Grafana Enterprise Application created in Microsoft Entra ID.
-![Application Overview](../../screenshots/01-Application-Overview.png)
+![Application Overview](../../screenshots/01-Application-Overview.png.png)
 
 ### 2. Blank SAML Configuration
 Shows the initial SAML configuration state before values were added.
-![Blank SAML](../../screenshots/02-SAML-Configuration-Blank.png)
+![Blank SAML](../../screenshots/02-SAML-Configuration-Blank.png.png)
 
-### 3. Basic SAML Configuration
-Shows the Entity ID and Reply URL configured in Microsoft Entra ID.
-![Basic SAML](../../screenshots/07-Entra-Basic-SAML-Configuration.png)
-
-### 4. Grafana SAML Settings
+### 3. Grafana SAML Settings
 Shows the Grafana-side SAML configuration where IdP values were entered.
-![Grafana SAML](../../screenshots/04-Grafana-SAML-Settings.png)
+![Grafana SAML](../../screenshots/04-Grafana-SAML-Settings.png.png)
 
-### 5. Attributes and Claims
-Shows default claim mappings configured in Microsoft Entra ID.
-![Claims](../../screenshots/08-Default-Attributes-Claims.png)
+### 4. Sign Requests
+Shows Grafana settings for signed SAML requests.
+![Sign Requests](../../screenshots/05-Grafana-Sign-Requests.png.png)
 
-### 6. Group Claim Added
-Shows group claim configuration for future RBAC.
-![Group Claim](../../screenshots/11-Group-Claim-Added.png)
+### 5. Identity Provider Configuration
+Shows the Grafana identity provider configuration workflow.
+![IdP Config](../../screenshots/06-Grafana-Identity-Provider-Configuration.png.png)
 
-### 7. SAML Certificate Metadata
-Shows the Microsoft Entra SAML certificate and metadata values.
-![Certificate](../../screenshots/12-SAML-Certificate-Metadata.png)
+### 6. Basic SAML Configuration
+Shows the Entity ID and Reply URL configured in Microsoft Entra ID.
+![Basic SAML](../../screenshots/07-Entra-Basic-SAML-Configuration.png.png)
 
-### 8. SAML Configuration Ready
-Shows the SAML configuration reaching a ready state.
-![Ready](../../screenshots/16-SAML-Configuration-Ready.png)
+### 7. Identity Provider Metadata
+Shows the Grafana identity provider metadata configuration.
+![IdP Metadata](../../screenshots/13-Grafana-Identity-Provider-Metadata.png.png)
+
+### 8. User Mapping
+Shows user attribute mapping between Entra ID and Grafana.
+![User Mapping](../../screenshots/14-Grafana-User-Mapping.png.png)
+
+### 9. SAML Configuration Enabled
+Shows the SAML configuration in an enabled state.
+![SAML Enabled](../../screenshots/15-SAML-Configuration-Enabled.png.png)
+
+### 10. SAML Configuration Ready
+Shows the SAML configuration reaching a fully ready state.
+![SAML Ready](../../screenshots/16-SAML-Configuration-Ready.png.png)
 
 ---
 
