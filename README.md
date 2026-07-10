@@ -4,6 +4,13 @@
 
 [Back to Portfolio](https://github.com/KSWISHA9)
 
+![Microsoft Entra ID](https://img.shields.io/badge/Microsoft%20Entra%20ID-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)
+![SAML 2.0](https://img.shields.io/badge/SAML%202.0-111827?style=for-the-badge&logo=auth0&logoColor=white)
+![OpenID Connect](https://img.shields.io/badge/OpenID%20Connect-F78C40?style=for-the-badge&logo=openid&logoColor=white)
+![OAuth 2.0](https://img.shields.io/badge/OAuth%202.0-111827?style=for-the-badge&logo=auth0&logoColor=white)
+![SCIM](https://img.shields.io/badge/SCIM-0A66C2?style=for-the-badge&logo=microsoft&logoColor=white)
+![Keycloak](https://img.shields.io/badge/Keycloak-4D4D4D?style=for-the-badge&logo=keycloak&logoColor=white)
+
 Enterprise application onboarding using Microsoft Entra ID across SAML 2.0, OpenID Connect, OAuth 2.0, SCIM provisioning, and Keycloak SAML identity federation.
 
 ---
